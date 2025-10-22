@@ -14,6 +14,9 @@ import ProfilePage from '@/pages/ProfilePage';
 import ApplicationsPage from '@/pages/ApplicationsPage';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { BallTriangle } from 'react-loader-spinner';
+import AdminJobsPage from '@/pages/admin/AdminJobsPage';
+import { AuthGuard } from '@/components/Admin/AuthGuard';
+import JobDetailPage from '@/pages/JobDetailPage';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -55,6 +58,17 @@ function App() {
             <Route path="/panel" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
             <Route path="/perfil" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
             <Route path="/aplicaciones" element={<PrivateRoute><ApplicationsPage /></PrivateRoute>} />
+            <Route path="/vacantes/:jobId" element={<JobDetailPage />} />
+
+            {/* ✅ RUTA PROTEGIDA CON AUTHGUARD */}
+            <Route 
+              path="/admin/jobs" 
+              element={
+                <AuthGuard>
+                  <AdminJobsPage />
+                </AuthGuard>
+              } 
+            />
           </Routes>
         </AnimatePresence>
       </main>
